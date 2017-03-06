@@ -1,4 +1,5 @@
 "use strict";
 
 var Dispatcher = require('flux').Dispatcher;
-module.exports = Dispatcher;
+var AppDispatcher = new Dispatcher();
+module.exports = AppDispatcher;

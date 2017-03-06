@@ -6,7 +6,8 @@ var AuthorForm = require('./authorForm');
 // No longer needed
 //var AuthorApi = require('../../api/authorAPI');
 var toastr = require('toastr');
-
+var AuthorActions = require('../../actions/authorActions');
+var AuthorStore = require('../../stores/authorStore');
 
 
 var ManageAuthorPage = React.createClass({
@@ -35,7 +36,7 @@ var ManageAuthorPage = React.createClass({
     componentWillMount: function () {
         var authorId = this.props.params.id;  //this is from the Path Author Id
         if (authorId) {
-            this.setState({author: AuthorApi.getAuthorById(authorId)});
+            this.setState({author: AuthorStore.getAuthorById(authorId)});
         }
     },
     setAuthorSet: function (event) {
@@ -70,7 +71,15 @@ var ManageAuthorPage = React.createClass({
         if (!this.authorFormIsValid()) {
             return;
         }
-        AuthorApi.saveAuthor(this.state.author);
+        // Will be replaced by AuthorActions
+        //AuthorApi.saveAuthor(this.state.author);
+
+        if(this.state.author.id) {
+            AuthorActions.updateAuthor(this.state.author);
+        } else {
+            AuthorActions.createAuthor(this.state.author);
+        }
+
         toastr.success('Author Saved');
         this.setState({dirty: false});
         //coming from Router.Navigation Mixin

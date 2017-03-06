@@ -12,7 +12,7 @@ var _authors = [];
 
 
 // This is similar to extending a class, so AuthorStore will have all features of EventEmitter
-var AuthorStore = asign({}, EventEmitter.prototype, {
+var AuthorStore = assign({}, EventEmitter.prototype, {
     // when things change in store, call callback
     addChangeListener: function (callabck) {
         this.on(CHANGE_EVENT, callabck);
@@ -39,9 +39,29 @@ var AuthorStore = asign({}, EventEmitter.prototype, {
 // Registers store with the dispatcher
 Dispatcher.register(function (action) {
     switch (action.actionType) {
+        case ActionTypes.INITIALIZE :
+            _authors = action.initialData.authors;
+            AuthorStore.emitChange();
+            break;
         case ActionTypes.CREATE_AUTHOR :
             _authors.push(action.author);
             AuthorStore.emitChange();
+            break;
+        case ActionTypes.UPDATE_AUTHOR :
+            var existingAuthor = _.find(_authors, {id: action.author.id});
+            var existingAuthorIndex = _.indexOf(_authors, existingAuthor);
+            _authors.splice(existingAuthorIndex, 1, action.author);
+            AuthorStore.emitChange();
+            break;
+        case ActionTypes.DELETE_AUTHOR :
+             /*_.remove(_authors, { id: action.id});*/
+            _.remove(_authors, function(author){
+               return author.id === action.id;
+            });
+            AuthorStore.emitChange();
+            break;
+        default:
+            console.log(action.actionType + ' , is received and no action taken from AuthorStore');
             break;
     }
 });
