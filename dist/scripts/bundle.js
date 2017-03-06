@@ -51850,9 +51850,12 @@ module.exports = CourseList;
 
 var React = require('react');
 var CourseStore = require('../../stores/courseStore');
+var AuthorStore = require('../../stores/authorStore');
 var CourseActions = require('../../actions/courseActions');
 var CourseList = require('./courseList');
 var Link = require('react-router').Link;
+
+
 
 var CoursePage = React.createClass({displayName: "CoursePage",
 
@@ -51864,11 +51867,13 @@ var CoursePage = React.createClass({displayName: "CoursePage",
 
     componentWillMount: function() {
         CourseStore.addChangeListener(this._onChanges);
+        AuthorStore.addChangeListener(this._onChanges);
     },
 
     //clean up when this component is unmounted
     componentWillUnmount: function() {
         CourseStore.removeChangeListener(this._onChanges);
+        AuthorStore.removeChangeListener(this._onChanges);
     },
 
     _onChanges: function() {
@@ -51891,7 +51896,7 @@ var CoursePage = React.createClass({displayName: "CoursePage",
 
 module.exports = CoursePage;
 
-},{"../../actions/courseActions":208,"../../stores/courseStore":234,"./courseList":223,"react":205,"react-router":35}],225:[function(require,module,exports){
+},{"../../actions/courseActions":208,"../../stores/authorStore":232,"../../stores/courseStore":234,"./courseList":223,"react":205,"react-router":35}],225:[function(require,module,exports){
 "use strict";
 // Controller view for Manage Author form
 var React = require('react');
