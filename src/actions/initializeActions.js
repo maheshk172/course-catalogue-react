@@ -2,6 +2,7 @@
 
 var Dispatcher = require('../dispatcher/appDispatcher');
 var AuthorApi = require('../api/authorAPI');
+var CourseAPI = require('../api/courseAPI');
 var ActionTypes = require('../constants/actionTypes');
 
 var InitializeActions = {
@@ -9,7 +10,14 @@ var InitializeActions = {
        Dispatcher.dispatch({
            actionType: ActionTypes.INITIALIZE,
            initialData: {
-               authors: AuthorApi.getAllAuthors()
+               authors: AuthorApi.getAllAuthors(),
+               courses: CourseAPI.getAllCourses(),
+               categories: [
+                   'Software Practices',
+                   'Software Architecture',
+                   'HTML5',
+                   'Career'
+               ]
            }
        });
    }
